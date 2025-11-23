@@ -102,7 +102,7 @@ def update_record(record:str):
         records_with_values[record_id] = record_type, ips[record_type]
 
     # send put request for all records
-    for record_id, (record_type, value) in records_with_values:
+    for record_id, (record_type, value) in records_with_values.items():
         try:
             requests.put(
                 url=f"https://dns.hetzner.com/api/v1/records/{record_id}",
