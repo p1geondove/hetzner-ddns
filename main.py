@@ -16,6 +16,7 @@ def get_ips() -> dict[str,str]:
         ips["A"] = res.text.strip()
         res = requests.get(f"ipv6.icanhazip.com")
         ips["AAAA"] = res.text.strip()
+        print(f"Current ipv4:{ips['A']}, ipv6:{ips['AAAA']}")
     except:
         print("Error getting current ips")
     return ips
@@ -51,6 +52,7 @@ def get_zone_id(zone_name:str="p1gn.com") -> None | str:
     try:
         for zone in response.json()["zones"]:
             if zone["name"] == zone_name:
+                print(f"Got zone id for {zone_name}: {zone['id']}")
                 return zone["id"]
     except:
         print(f"Error parsing zones response")
@@ -72,6 +74,7 @@ def get_record_id(record_name:str, zone_id:str) -> None | dict[str,str]:
         for record in response.json()["records"]:
             if record["name"] == record_name:
                 records[record["type"]] = record["id"]
+        print(f"Got record id(s) for {record_name}: {records}")
         return records
     except:
         print(f"Error parsing record id ({record_name = }, {zone_id = })")
