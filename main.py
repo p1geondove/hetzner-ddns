@@ -50,12 +50,14 @@ def get_zone_id(zone_name:str="p1gn.com") -> None | str:
         return
 
     try:
+        print(response.json())
         for zone in response.json()["zones"]:
+            print(zone)
             if zone["name"] == zone_name:
                 print(f"Got zone id for {zone_name}: {zone['id']}")
                 return zone["id"]
     except:
-        print(f"Error parsing zones response")
+        print(f"Error parsing zones")
 
 def get_record_id(record_name:str, zone_id:str) -> None | dict[str,str]:
     """ fetches the record id of given record, eg mc.p1gn.com -> d226c5615101de6d7b0d556687b0bc91 """
