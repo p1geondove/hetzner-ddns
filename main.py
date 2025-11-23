@@ -12,9 +12,9 @@ def get_ips() -> dict[str,str]:
     """ requests.gets the current ips from icanhazip """
     ips:dict[str,str] = dict()
     try:
-        res = requests.get(f"ipv4.icanhazip.com")
+        res = requests.get(f"https://ipv4.icanhazip.com")
         ips["A"] = res.text.strip()
-        res = requests.get(f"ipv6.icanhazip.com")
+        res = requests.get(f"https://ipv6.icanhazip.com")
         ips["AAAA"] = res.text.strip()
         print(f"Current ipv4:{ips['A']}, ipv6:{ips['AAAA']}")
     except Exception as e:
@@ -45,8 +45,8 @@ def get_zone_id(zone_name:str="p1gn.com") -> None | str:
             url="https://dns.hetzner.com/api/v1/zones",
             headers={"Auth-API-Token": TOKEN}
         )
-    except:
-        print(f"Error fetching zones from {zone_name}")
+    except Exception as e:
+        print(f"Error fetching zones from {zone_name}: {e}")
         return
 
     try:
@@ -58,8 +58,8 @@ def get_zone_id(zone_name:str="p1gn.com") -> None | str:
             if zone["name"] == zone_name:
                 print(f"Got zone id for {zone_name}: {zone['id']}")
                 return zone["id"]
-    except:
-        print(f"Error parsing zones")
+    except Exception as e:
+        print(f"Error parsing zones: {e}")
 
 def get_record_id(record_name:str, zone_id:str) -> None | dict[str,str]:
     """ fetches the record id of given record, eg mc.p1gn.com -> d226c5615101de6d7b0d556687b0bc91 """
@@ -69,8 +69,8 @@ def get_record_id(record_name:str, zone_id:str) -> None | dict[str,str]:
             params={"zone_id": zone_id},
             headers={"Auth-API-Token": TOKEN},
         )
-    except:
-        print(f"Error getting record id")
+    except Exception as e:
+        print(f"Error getting record id: {e}")
         return
 
     try:
@@ -80,8 +80,8 @@ def get_record_id(record_name:str, zone_id:str) -> None | dict[str,str]:
                 records[record["type"]] = record["id"]
         print(f"Got record id(s) for {record_name}: {records}")
         return records
-    except:
-        print(f"Error parsing record id ({record_name = }, {zone_id = })")
+    except Exception as e:
+        print(f"Error parsing record id ({record_name = }, {zone_id = }): {e}")
 
 def update_record(record:str):
     """ updates the record while fetching all nessecerry info """
