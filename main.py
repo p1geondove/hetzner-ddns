@@ -77,7 +77,7 @@ def get_record_id(record_name:str, zone_id:str) -> None | dict[str,str]:
         records = dict()
         for record in response.json()["records"]:
             if record["name"] == record_name:
-                records[record["type"]] = record["id"]
+                records[record["id"]] = record["type"]
         print(f"Got record id(s) for {record_name}: {records}")
         return records
     except Exception as e:
