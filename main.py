@@ -111,7 +111,7 @@ def update_record(record:str):
                     "zone_id": zone_id
                 })
             )
-
+            print(f"updated {record}/{record_type} to {value}")
         except:
             print(f"Error updating {record}")
 
